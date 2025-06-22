@@ -1,0 +1,7 @@
+#Conection data base
+mysql-connector-python==9.3.0
+
+#Interface 
+PyQt6==6.9.1
+PyQt6-Qt6==6.9.1
+PyQt6_sip==13.10.2
