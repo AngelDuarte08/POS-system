@@ -3,7 +3,7 @@
 A personal project developed in Python with a graphical user interface (GUI) built using **PyQt6**. This application simulates the essential features of a retail point of sale system, including product management, sales recording, and a basic database structure.
 
 ## 📁 Project Structure
-    ```bash
+    ```
     PUNTODEVENTA/
     │
     ├── .venv/ # Virtual environment
