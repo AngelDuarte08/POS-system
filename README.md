@@ -3,19 +3,20 @@
 A personal project developed in Python with a graphical user interface (GUI) built using **PyQt6**. This application simulates the essential features of a retail point of sale system, including product management, sales recording, and a basic database structure.
 
 ## 📁 Project Structure
-PUNTODEVENTA/
-│
-├── .venv/ # Virtual environment
-├── css/ # Stylesheets for the UI
-├── database/ # Database files and schema
-├── Models/ # Data models (e.g., Product, Sale)
-├── Views/ # UI screens (PyQt6 .ui or Python files)
-├── Main.py # Main application entry point
-├── requirements.txt # Python dependencies
-├── README.md # Project documentation
-├── LICENSE # License file
-└── .gitignore # Git ignored files
-
+    ```bash
+    PUNTODEVENTA/
+    │
+    ├── .venv/ # Virtual environment
+    ├── css/ # Stylesheets for the UI
+    ├── database/ # Database files and schema
+    ├── Models/ # Data models (e.g., Product, Sale)
+    ├── Views/ # UI screens (PyQt6 .ui or Python files)
+    ├── Main.py # Main application entry point
+    ├── requirements.txt # Python dependencies
+    ├── README.md # Project documentation
+    ├── LICENSE # License file
+    └── .gitignore # Git ignored files
+    ```
 
 ## 🚀 Features
 
