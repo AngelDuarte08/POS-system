@@ -23,12 +23,16 @@ class MainView(QMainWindow):
 
     def generateForm(self):
         central = QWidget(self)
-        central.setObjectName("centralWidget")
         self.setCentralWidget(central)
-        central.setFixedSize(500, 500)
+        
+        contenedor = QWidget()
+        contenedor.setObjectName("formulario")
+        contenedor.setFixedSize(400,400)
 
-        layout_principal = QVBoxLayout(central)
-        layout_principal.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout = QVBoxLayout()
+
+        layoutPrincipal = QVBoxLayout(central)
+        layoutPrincipal.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Etiqueta
         title = QLabel("Menú principal PV")
@@ -44,14 +48,20 @@ class MainView(QMainWindow):
         self.btnExit.setObjectName("Exit")
 
         # Agregar al layout
-        layout_principal.addStretch()
-        layout_principal.addWidget(title)
-        layout_principal.addWidget(self.btnUser)
-        layout_principal.addWidget(self.btnCustome)
-        layout_principal.addWidget(self.btnSupplier)
-        layout_principal.addWidget(self.btnProduct)
-        layout_principal.addWidget(self.btnExit)
-        layout_principal.addStretch()
+        layout.addStretch()
+        layout.addWidget(title)
+        layout.addWidget(self.btnUser)
+        layout.addWidget(self.btnCustome)
+        layout.addWidget(self.btnSupplier)
+        layout.addWidget(self.btnProduct)
+        layout.addWidget(self.btnExit)
+        layout.addStretch()
+
+        contenedor.setLayout(layout)
+
+        layoutPrincipal.addWidget(contenedor)
+
+        
 
         # Eventos
         self.btnUser.clicked.connect(self.openSelectionUser)

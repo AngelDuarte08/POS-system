@@ -1,9 +1,12 @@
 from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QLabel, QTableWidget, QTableWidgetItem
 from PyQt6.QtCore import Qt
+
 from Models.User import User
 from Models.Customer import Customer
 from Models.Supplier import Supplier
 from Models.Product import Product
+
+from Views.RegisterView import RegisterView
 
 class SelectionMain(QMainWindow):
     def __init__(self, typeEntity, mainView):
@@ -13,7 +16,7 @@ class SelectionMain(QMainWindow):
         self.setupUI()
 
         # Aplicar estilo CSS
-        with open("css/User.css", "r") as file:
+        with open("css/Selection.css", "r") as file:
             style = file.read()
         self.setStyleSheet(style)
 
@@ -28,8 +31,19 @@ class SelectionMain(QMainWindow):
         central = QWidget(self)
         self.setCentralWidget(central)
         # Layout principal
-        layout = QVBoxLayout(central)
-        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        contenedor = QWidget()
+        contenedor.setObjectName("formulario")
+        contenedor.setFixedSize(400,400)
+
+        layoutPrincipal = QVBoxLayout()
+        layoutPrincipal.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        layoutForm = QVBoxLayout()
+        layoutForm.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+
+        layout = QVBoxLayout()
+        layout.addLayout(layoutForm)
 
         if self.typeEntity == "User":
             Entity = "Usuario"
@@ -62,18 +76,23 @@ class SelectionMain(QMainWindow):
         self.btnExit.setObjectName("Exit")
 
         # Agregar al layout
-        layout.addStretch()
-        layout.addWidget(lUser)
-        layout.addWidget(lAsk)
-        layout.addWidget(self.tableUser)
-        layout.addWidget(self.btnRegister)
-        layout.addWidget(self.btnDelete)
-        layout.addWidget(self.btnConsult)
-        layout.addWidget(self.btnExit)
-        layout.addStretch()
+        layoutForm.addWidget(lUser)
+        layoutForm.addWidget(lAsk)
+        layoutForm.addWidget(self.btnRegister)
+        layoutForm.addWidget(self.btnDelete)
+        layoutForm.addWidget(self.btnConsult)
+        layoutForm.addWidget(self.btnExit)
+
+        contenedor.setLayout(layout)
+
+        layoutPrincipal.addWidget(self.tableUser)
+        layoutPrincipal.addWidget(contenedor, alignment=Qt.AlignmentFlag.AlignHCenter)
+
+        central.setLayout(layoutPrincipal)
 
         # Eventos
         self.btnExit.clicked.connect(self.backView)
+        self.btnRegister.clicked.connect(self.Register)
 
     def showUsers(self):
         if self.typeEntity== "User":
@@ -108,3 +127,7 @@ class SelectionMain(QMainWindow):
     def backView(self):
         self.close()
         self.mainView.show()
+
+    def Register(self):
+        self.register = RegisterView(self.typeEntity, self)
+        self.register.show()

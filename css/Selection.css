@@ -1,21 +1,36 @@
+/* Fondo general */
 QMainWindow {
     background-color: whitesmoke;
 }
 
+/* Widget formulario */
 QWidget#formulario {
     background: #212121;
     border-radius: 20px;
     padding: 24px;
 }
 
-
+/* Títulos */
 QLabel#titulo {
-    color: #fff;
-    font-size: 22px;
+    color: #ffffff;
+    font-size: 24px;
     font-weight: bold;
-    margin-bottom: 18px;
-    letter-spacing: 1px;
-    background: transparent;
+    margin-bottom: 20px;
+}
+
+/* Etiquetas generales */
+QLabel {
+    color: #dddddd;
+    font-size: 16px;
+}
+
+/* QLineEdit si los usas */
+QLineEdit {
+    background-color: #3a3a3a;
+    color: #ffffff;
+    border: 1px solid #5a5a5a;
+    border-radius: 8px;
+    padding: 8px;
 }
 
 /* Botones */
@@ -31,11 +46,16 @@ QPushButton:hover {
     background-color: #005f99;
 }
 
-QPushButton:pressed {
-    background: #0077cc;
-    border: 2px solid #0077cc;
+QHeaderView::section {
+    padding: 6px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
 }
 
+QTableWidget {
+    border-radius: 20px;
+}
 QPushButton#Exit {
     background: #b71c1c;
     color: #fff;
