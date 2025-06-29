@@ -25,11 +25,11 @@ class Supplier(Person):
         database = Model(query, "", 1)
         database.command()
 
-    def consult(self, name):
-        self.__name = name
-        query = "SELECT * FROM Provedores WHERE Provedores.nombre = %s"
+    def consult(self, email):
+        self.__email = email
+        query = "SELECT * FROM Provedores WHERE Provedores.email = %s"
         
-        database= Model(query, (self.__name, ), 0)
+        database= Model(query, (self.__email, ), 0)
         return database.command()
 
     def consultTable(self):

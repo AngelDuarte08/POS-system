@@ -22,11 +22,11 @@ class Customer(Person):
         database = Model(query, "", 1)
         database.command()
 
-    def consult(self, name):
-        self.__name = name
-        query = "SELECT * FROM Clientes WHERE Clientes.nombre = %s"
+    def consult(self, tel):
+        self.__tel = tel
+        query = "SELECT * FROM Clientes WHERE Clientes.tel = %s"
         
-        database= Model(query, (self.__name, ), 0)
+        database= Model(query, (self.__tel, ), 0)
         return database.command()
 
 
