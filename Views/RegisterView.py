@@ -1,8 +1,13 @@
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QFormLayout, QPushButton, QLabel, QLineEdit,
-    QMainWindow, QSpinBox, QComboBox
+    QMainWindow, QSpinBox, QComboBox, QMessageBox
 )
 from PyQt6.QtCore import Qt
+
+from Models.User import User
+from Models.Customer import Customer
+from Models.Supplier import Supplier
+from Models.Product import Product
 
 class RegisterView(QMainWindow):
     def __init__(self, typeEntity, selectionView):
@@ -66,7 +71,15 @@ class RegisterView(QMainWindow):
     def generateForm(self):
         central = QWidget()
         self.setCentralWidget(central)
-        layout = QVBoxLayout(central)
+
+        layoutPrincipal = QVBoxLayout()
+        central.setLayout(layoutPrincipal)
+
+        layout = QVBoxLayout()
+
+        contenedor = QWidget()
+        contenedor.setObjectName("formulario")
+        contenedor.setFixedSize(500,500)
 
         if self.typeEntity == "User":
             Entity = "Usuario"
@@ -84,20 +97,25 @@ class RegisterView(QMainWindow):
         layout.addWidget(titulo)
 
         self.form = QFormLayout()
-        layout.addLayout(self.form)
 
         self.generar_campos()
 
         # Botones
         self.btnSave = QPushButton("Guardar")
         self.btnCancel = QPushButton("Cancelar")
-        self.btnCancel.clicked.connect(self.backView)
+        self.btnCancel.setObjectName("Exit")
 
+        layout.addLayout(self.form)
         layout.addWidget(self.btnSave)
         layout.addWidget(self.btnCancel)
 
+        contenedor.setLayout(layout)
+
+        layoutPrincipal.addWidget(contenedor, alignment=Qt.AlignmentFlag.AlignCenter)
+
         #Events
-        self.btnSave.clicked.connect()
+        self.btnSave.clicked.connect(self.register)
+        self.btnCancel.clicked.connect(self.backView)
 
     def generar_campos(self):
         estructura = self.fieldsByEntity.get(self.typeEntity, {})
@@ -122,5 +140,66 @@ class RegisterView(QMainWindow):
         self.selectionView.show()
 
 
-    def register():
-        pass
+    def register(self):
+        valores = {}
+
+        if self.typeEntity == "User":
+            model = User()
+
+            for etiqueta, widget in self.campos.items():
+                if isinstance(widget, QLineEdit):
+                    valores[etiqueta] = widget.text()
+                elif isinstance(widget, QSpinBox):
+                    valores[etiqueta] = widget.value()
+                elif isinstance(widget, QComboBox):
+                    valores[etiqueta] = widget.currentText()
+
+            ordenCampos = ["Nombre", "Dirección", "Edad", "Teléfono", "Email", "Rol", "Clave de acceso", "Contraseña"]
+            valoresOrdenados = [valores[campo] for campo in ordenCampos]
+
+        elif self.typeEntity == "Customer":
+            model = Customer()
+
+            for etiqueta, widget in self.campos.items():
+                if isinstance(widget, QLineEdit):
+                    valores[etiqueta] = widget.text()
+                elif isinstance(widget, QSpinBox):
+                    valores[etiqueta] = widget.value()
+                elif isinstance(widget, QComboBox):
+                    valores[etiqueta] = widget.currentText()
+
+            ordenCampos = ["Nombre", "Dirección", "Edad", "Teléfono", "Email", "RFC", "Crédito"]
+            valoresOrdenados = [valores[campo] for campo in ordenCampos]
+
+        elif self.typeEntity == "Supplier": 
+            model = Supplier()
+
+            for etiqueta, widget in self.campos.items():
+                if isinstance(widget, QLineEdit):
+                    valores[etiqueta] = widget.text()
+                elif isinstance(widget, QSpinBox):
+                    valores[etiqueta] = widget.value()
+                elif isinstance(widget, QComboBox):
+                    valores[etiqueta] = widget.currentText()
+
+            ordenCampos = ["Nombre", "Dirección", "Edad", "Teléfono", "Email", "RFC", "Productos", "Horarios", "Crédito"]
+            valoresOrdenados = [valores[campo] for campo in ordenCampos]
+
+        else:
+            model = Product()
+            for etiqueta, widget in self.campos.items():
+                if isinstance(widget, QLineEdit):
+                    valores[etiqueta] = widget.text()
+                elif isinstance(widget, QSpinBox):
+                    valores[etiqueta] = widget.value()
+                elif isinstance(widget, QComboBox):
+                    valores[etiqueta] = widget.currentText()
+
+            ordenCampos = ["Nombre", "Cantidad", "Fecha de Caducidad", "Fecha de Entrega", "Código de Barras", "Precio"]
+            valoresOrdenados = [valores[campo] for campo in ordenCampos]
+
+
+        model.register(valoresOrdenados)
+        QMessageBox.information(self, "Éxito","Registro guardado correctamente.")
+        self.close()
+        

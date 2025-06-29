@@ -11,27 +11,12 @@ class Supplier(Person):
         self.__products = ""
         self.__Schedules = "" #horarios
 
-    def register(self):
-        self.__name = input("Ingrese su nombre: ")
-        self.__direction = input("Ingrese su dirección: ")
-        self.__age = input("Ingrese su edad: ")
-        self.__tel = input("Ingrese su numero de telefono: ")
-        self.__email = input("Ingrese su correo electronico: ")
-        self.__status = 1 
-        self.__rfc = input("Ingrese su RFC: ")
-        self.__products = input("Ingrese los productos que vende: ")
-        self.__Schedules = input("Ingrese los horaios de assitencia: ")
-        self.__credit = input("Ingrese su credito: ")
-        proceed = input("¿Desea proceder con el registro? (S/N)").upper()
+    def register(self, values):
+        self.values = values 
+        query =  "INSERT INTO Provedores (nombre, direccion, edad, tel, email, rfc, producto, horarios, credito) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
-        if proceed == "S" or proceed == "SI": 
-            print("Registrando Proveedor...")
-
-            query =  "INSERT INTO Provedores (nombre, direccion, edad, tel, email, status, rfc, produto, horaios, credito) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            values = (self.__name, self.__direction, self.__age, self.__tel, self.__email, self.__status, self.__rfc, self.__products, self.__Schedules, self.__credit)
-
-            database = Model(query, values, 1)
-            database.command()
+        database = Model(query, self.values, 1)
+        database.command()
 
     def eliminate(self):
         self.__name = input("Ingresa el nombre del proveedor a eliminar: ")
