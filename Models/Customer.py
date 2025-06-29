@@ -15,14 +15,12 @@ class Customer(Person):
         database = Model(query, self.values, 1)
         database.command()
 
-    def eliminate(self):
-        self.__name = input("Ingresa el nombre del cliente a eliminar: ")
-        query = f"UPDATE Clientes SET status = 0 WHERE Clientes.nombre = '{self.__name}'"
+    def delete(self, tel):
+        self.__tel = tel
+        query = f"UPDATE Clientes SET estatus = 0 WHERE Clientes.tel = '{self.__tel}'"
 
         database = Model(query, "", 1)
         database.command()
-
-        print(f"Cliente {self.__name} eliminado corectamente.")
 
     def consult(self, name):
         self.__name = name
@@ -51,3 +49,8 @@ class Customer(Person):
                 self.registar 
             else: 
                 return 0 
+            
+    def getAccessKeys(self):
+        query = "SELECT tel FROM Clientes"
+        database = Model(query, "", 0)
+        return database.command()

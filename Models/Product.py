@@ -19,9 +19,9 @@ class Product():
         database.command()
 
 
-    def eliminate(self):
-        self.__name = print("Ingrese el nombre del producto a eliminar: ")
-        query = f"UPDATE Productos SET status = 0 WHERE Productos.nombreProducto '{self.__name}'"
+    def delete(self, name):
+        self.__name = name 
+        query = f"UPDATE Productos SET estatus = 0 WHERE Productos.nombreProducto = '{self.__name}'"
 
         database = Model(query, "", 1)
         database.command()
@@ -53,3 +53,8 @@ class Product():
                 self.registar
             else: 
                 return 0
+            
+    def getAccessKeys(self):
+        query = "SELECT nombreProducto FROM Productos"
+        database = Model(query, "", 0)
+        return database.command()

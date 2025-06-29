@@ -7,6 +7,7 @@ from Models.Supplier import Supplier
 from Models.Product import Product
 
 from Views.RegisterView import RegisterView
+from Views.DeleteView import DeleteView
 
 class SelectionMain(QMainWindow):
     def __init__(self, typeEntity, mainView):
@@ -93,6 +94,7 @@ class SelectionMain(QMainWindow):
         # Eventos
         self.btnExit.clicked.connect(self.backView)
         self.btnRegister.clicked.connect(self.Register)
+        self.btnDelete.clicked.connect(self.delete)
 
     def showUsers(self):
         if self.typeEntity== "User":
@@ -131,3 +133,7 @@ class SelectionMain(QMainWindow):
     def Register(self):
         self.register = RegisterView(self.typeEntity, self)
         self.register.show()
+
+    def delete(self):
+        self.delete = DeleteView(self.typeEntity, self)
+        self.delete.show()

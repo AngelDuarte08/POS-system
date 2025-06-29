@@ -16,14 +16,12 @@ class User(Person):
         database = Model(query, self.values, 1)
         database.command()
 
-    def eliminate(self):
-        self.__name = input("Ingresa el nombre del usuario a eliminar: ")
+    def delete(self, name):
+        self.__name = name 
         query = f"UPDATE Usuarios SET estatus = 0 WHERE Usuarios.claveDeAcceso = '{self.__name}'"
 
         database = Model(query, "", 1)
         database.command()
-
-        # print(f"Usuario {self.__name} eliminado corectamente.")
 
     def consult(self, name):
         self.__name = name
@@ -35,5 +33,10 @@ class User(Person):
     def consultTable(self):
         query = f"SELECT * FROM Usuarios"
 
+        database = Model(query, "", 0)
+        return database.command()
+    
+    def getAccessKeys(self):
+        query = "SELECT claveDeAcceso FROM Usuarios"
         database = Model(query, "", 0)
         return database.command()

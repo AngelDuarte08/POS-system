@@ -18,14 +18,12 @@ class Supplier(Person):
         database = Model(query, self.values, 1)
         database.command()
 
-    def eliminate(self):
-        self.__name = input("Ingresa el nombre del proveedor a eliminar: ")
-        query = f"UPDATE Provedores SET status = 0 WHERE Provedores.nombre = '{self.__name}'"
+    def delete(self, email):
+        self.__email = email
+        query = f"UPDATE Provedores SET estatus = 0 WHERE Provedores.email = '{self.__email}'"
 
         database = Model(query, "", 1)
         database.command()
-
-        print(f"Proveedor {self.__name} eliminado corectamente.")
 
     def consult(self, name):
         self.__name = name
@@ -37,5 +35,10 @@ class Supplier(Person):
     def consultTable(self):
         query = f"SELECT * FROM Provedores"
         
+        database = Model(query, "", 0)
+        return database.command()
+    
+    def getAccessKeys(self):
+        query = "SELECT email FROM Provedores"
         database = Model(query, "", 0)
         return database.command()
