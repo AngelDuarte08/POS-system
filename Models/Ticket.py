@@ -1,12 +1,13 @@
-from Models.Customer import Customer
-from Models.Product import Product
-from database.Model import Model
 import mysql.connector
 
+from Models.User import User
+from database.Model import Model
+from Models.Customer import Customer
+from Models.Product import Product
 
 class Ticket():
     def __init__(self):
-        self.__idTicket = ""
+        self.idTicket = ""
         self.__producto = ""
         self.__fecha = ""
         self.__direccion = ""
@@ -19,34 +20,58 @@ class Ticket():
         self.__iva = ""
         self.__sucursal = ""
 
-    def crearTicket(self):
-
-        customer = Customer()
-        product = Product()
+    def crearTicket(self, tel, sucursal, user):
+        self.tel = tel
+        self.sucursal = sucursal
+        self.user = user 
+        self.customer = Customer()
+        self.dbUser = User()
 
         try: 
-            datoCliente = customer.consultCustomer(input("Nombre del cliente: "))
-            if datoCliente == 0: 
+            dataCustumer = self.customer.consult(self.tel)
+            rowC = dataCustumer[0]
+            dataUser = self.dbUser.consult(self.user)
+            rowU = dataUser[0]
+
+            if dataCustumer == 0:
                 pass
             else: 
-                database = Model("", "", 1)
-                self.__idTicket = database.procedure("crearTicket" , [datoCliente])[0]
-                otro = "s"
-                while otro in ("s","S"):
-                    datoProduct = product.consultProduct(input("Codigo de barras del producto: "))
-                    if datoProduct == 0: 
-                        pass 
-                    else: 
-                        idProducto = datoProduct[0][0]
-                    database = Model("", "", 1)
-                    database.procedimiento("insertar" ,(self.__idTicket, idProducto))
+                database = Model("","",1)
+                rows = database.procedure('crearTicket', (rowC[0], rowU[0], f'{self.sucursal}'))
+                print(rows)
+                if not rows:
+                    raise ValueError("No se pudo crear el ticket")
+                self.idTicket = rows[0]
+                return self.idTicket
 
-                    database = Model("", "", 1)
-                    database.procedure("actualizarTotal" ,(self.__idTicket, idProducto))
-                    otro = input("Deseas agregar otro producto (s/n): ")
-                
+        except mysql.connector.Error as err: 
+            print(f"ERROR{err}")
+        finally:
+            print("Venta finalizada")
+
+
+    def addProduct(self, barCode, idTicket):
+        self.barCode = barCode
+        self.idTicket = idTicket
+        self.product = Product()
+
+
+        try: 
+            dataProcduct = self.product.getdataProduct(self.barCode)
+            row = dataProcduct[0]
+            self.idProduct = row[0]
+
+            if dataProcduct == 0: 
+                pass
+            else: 
+                database = Model("","",1)
+                database.procedure('insertar', (self.idTicket, self.idProduct))
+                database = Model("","",1)
+                database.procedure('actualizarTotal',(self.idTicket, self.idProduct))
+
+                return dataProcduct
 
         except mysql.connector.Error as err:
-            print("se genero un ERROR") 
+            print(f"Error {err}")
         finally: 
-            pass 
+            print("Venta finalizada")

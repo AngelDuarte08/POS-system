@@ -2,12 +2,15 @@ from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QLab
 from PyQt6.QtCore import Qt
 
 from Views.SelectionsView import SelectionMain
+from Views.SellView import SellView
 
 # from Views.UserView import UserView
 
 class MainView(QMainWindow):
-    def __init__(self):
+    def __init__(self, user, sucursal):
         super().__init__()
+        self.user = user 
+        self.sucursal = sucursal
         self.setupUI()
 
         # Aplicar estilo CSS
@@ -44,6 +47,8 @@ class MainView(QMainWindow):
         self.btnCustome = QPushButton("Cliente")
         self.btnSupplier = QPushButton("Proveedor")
         self.btnProduct = QPushButton("Producto")
+        self.btnSell = QPushButton("Vender")
+        self.btnConsultSell = QPushButton("Registro de ventas")
         self.btnExit = QPushButton("Salir")
         self.btnExit.setObjectName("Exit")
 
@@ -54,6 +59,8 @@ class MainView(QMainWindow):
         layout.addWidget(self.btnCustome)
         layout.addWidget(self.btnSupplier)
         layout.addWidget(self.btnProduct)
+        layout.addWidget(self.btnSell)
+        layout.addWidget(self.btnConsultSell)
         layout.addWidget(self.btnExit)
         layout.addStretch()
 
@@ -68,6 +75,7 @@ class MainView(QMainWindow):
         self.btnCustome.clicked.connect(self.openSelectionCustumer)
         self.btnSupplier.clicked.connect(self.openSelectionSupplier)
         self.btnProduct.clicked.connect(self.openSelectionProduct)
+        self.btnSell.clicked.connect(self.openSellView)
         self.btnExit.clicked.connect(self.close)
 
     def openSelectionUser(self):
@@ -83,9 +91,14 @@ class MainView(QMainWindow):
     def openSelectionSupplier(self):
         self.hide()
         self.supplierSelecion = SelectionMain("Supplier", self)
-        self.supplierSelecion.show
+        self.supplierSelecion.show()
     
     def openSelectionProduct(self):
         self.hide()
         self.productSelecion = SelectionMain("Product", self)
-        self.productSelecion. show
+        self.productSelecion. show()
+
+    def openSellView(self):
+        self.hide()
+        self.sellView = SellView(self.user, self.sucursal ,self)
+        self.sellView.setupUI()

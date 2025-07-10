@@ -26,9 +26,10 @@ class Model():
         self.__cursor.callproc(procedureName,data)
         resultProcedure = self.__cursor.stored_results()
         valueRecived = [0]
+        
         for result in resultProcedure: 
             for dato in result:
                 valueRecived = dato
-        self.__connection.commit
-        self.__close()
+        self.__connection.commit()
+        self.__connection.close()
         return valueRecived

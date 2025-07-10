@@ -104,7 +104,7 @@ class LoginView(QMainWindow):
             passwdDatabase = row[9]
 
             if emailDatabase == emailLogin and passwdDatabase == passwdLogin:
-                self.mainView = MainView()
+                self.mainView = MainView(emailDatabase, "404: Precios No Encontrados")
                 self.mainView.show()
                 self.close()
             else: 

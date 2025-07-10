@@ -58,3 +58,13 @@ class Product():
         query = "SELECT nombreProducto FROM Productos"
         database = Model(query, "", 0)
         return database.command()
+    
+    def getBarcode(self):
+        query = "SELECT codigoDeBarra FROM Productos"
+        database = Model(query, "" , 0)
+        return database.command()
+    
+    def getdataProduct(self, barCode):
+        query = "SELECT idProducto, nombreProducto , codigoDeBarra, Precio FROM Productos WHERE Productos.codigoDeBarra = %s"
+        database = Model(query, [barCode] , 0)
+        return database.command()
